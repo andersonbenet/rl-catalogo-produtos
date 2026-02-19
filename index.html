@@ -1,86 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Catálogo - RL Artigos para Pesca</title>
-    <style>
-        body {
-            font-family: Arial;
-            margin: 0;
-            background: #f2f2f2;
-        }
-
-        header {
-            background: #1e1e1e;
-            color: white;
-            text-align: center;
-            padding: 30px;
-        }
-
-        .logo-section {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .logo-section img {
-            width: 100%;
-            max-width: 280px;
-            height: auto;
-            object-fit: contain;
-            display: block;
-        }
-
-        .slogan {
-            font-size: 15px;
-            font-style: italic;
-            margin: 5px 0;
-            opacity: 0.95;
-        }
-
-        .cnpj {
-            font-size: 13px;
-            margin-bottom: 8px;
-        }
-
-        .contato {
-            font-size: 14px;
-            margin-top: 10px;
-        }
-
-        .produtos {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 15px;
-            padding: 20px;
-        }
-
-        .produto {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .produto img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            border-radius: 6px;
-        }
-
-        .id {
-            font-size: 12px;
-            color: gray;
-        }
-    </style>
+    <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
 
-<header>
+<header class="header">
     <div class="logo-section">
         <img src="assets/logo/logo.png" alt="RL Artigos de Pesca">
     </div>
@@ -88,50 +16,53 @@
     <p class="slogan">A melhor escolha para sua pescaria!</p>
     <p class="cnpj">CNPJ: 00.000.000/0001-00</p>
     <div class="contato">
-        WhatsApp: (00) 00000-0000 <br>
-        Instagram: @minhaempresa <br>
+        WhatsApp: (00) 00000-0000<br>
+        Instagram: @minhaempresa<br>
         Email: contato@minhaempresa.com
     </div>
 </header>
 
-<div class="produtos">
+<main class="main">
+    <h2 class="section-title">Catálogo de Produtos</h2>
+    <section class="produtos-grid">
 
-    <div class="produto">
-        <div class="id">ID: 001</div>
-        <img src="assets/produtos/produto-001.png" alt="Chicote de pesca 1">
-        <h3>Chicote de pesca 1</h3>
-        <p>Chicote multi-anzol com miçangas verdes e acabamento em aço.</p>
-    </div>
+        <article class="produto-card">
+            <span class="produto-id">ID: 001</span>
+            <img src="assets/produtos/produto-001.png" alt="Chicote de pesca 1">
+            <h3>Chicote de pesca 1</h3>
+            <p>Chicote multi-anzol com miçangas verdes e acabamento em aço.</p>
+        </article>
 
-    <div class="produto">
-        <div class="id">ID: 002</div>
-        <img src="assets/produtos/produto-002.png" alt="Chicote de pesca 2">
-        <h3>Chicote de pesca 2</h3>
-        <p>Chicote com anzóis múltiplos, linha transparente e miçangas azuis.</p>
-    </div>
+        <article class="produto-card">
+            <span class="produto-id">ID: 002</span>
+            <img src="assets/produtos/produto-002.png" alt="Chicote de pesca 2">
+            <h3>Chicote de pesca 2</h3>
+            <p>Chicote com anzóis múltiplos, linha transparente e miçangas azuis.</p>
+        </article>
 
-    <div class="produto">
-        <div class="id">ID: 003</div>
-        <img src="assets/produtos/produto-003.png" alt="Chicote de pesca 3">
-        <h3>Chicote de pesca 3</h3>
-        <p>Chicote com anzol reforçado, girador e miçangas coloridas.</p>
-    </div>
+        <article class="produto-card">
+            <span class="produto-id">ID: 003</span>
+            <img src="assets/produtos/produto-003.png" alt="Chicote de pesca 3">
+            <h3>Chicote de pesca 3</h3>
+            <p>Chicote com anzol reforçado, girador e miçangas coloridas.</p>
+        </article>
 
-    <div class="produto">
-        <div class="id">ID: 004</div>
-        <img src="assets/produtos/produto-004.png" alt="Chicote de pesca 4">
-        <h3>Chicote de pesca 4</h3>
-        <p>Chicote de aço com emendas e giradores para montagem rápida.</p>
-    </div>
+        <article class="produto-card">
+            <span class="produto-id">ID: 004</span>
+            <img src="assets/produtos/produto-004.png" alt="Chicote de pesca 4">
+            <h3>Chicote de pesca 4</h3>
+            <p>Chicote de aço com emendas e giradores para montagem rápida.</p>
+        </article>
 
-    <div class="produto">
-        <div class="id">ID: 005</div>
-        <img src="assets/produtos/produto-005.png" alt="Chicote de pesca 5">
-        <h3>Chicote de pesca 5</h3>
-        <p>Chicote completo com vários ramais e miçangas verdes fluorescentes.</p>
-    </div>
+        <article class="produto-card">
+            <span class="produto-id">ID: 005</span>
+            <img src="assets/produtos/produto-005.png" alt="Chicote de pesca 5">
+            <h3>Chicote de pesca 5</h3>
+            <p>Chicote completo com vários ramais e miçangas verdes fluorescentes.</p>
+        </article>
 
-</div>
+    </section>
+</main>
 
 </body>
 </html>
