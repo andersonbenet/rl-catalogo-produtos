@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<header class="header">
+<header class="header" data-whatsapp="55001999999999">
     <div class="logo-section">
         <img src="assets/logo/logo.png" alt="RL Artigos de Pesca">
     </div>
@@ -31,6 +31,7 @@
             <a href="#categoria-chicotes">Chicotes</a>
             <a href="#categoria-linhas">Linhas</a>
             <a href="#categoria-anzois">Anzois</a>
+            <a href="#fazer-pedido">Fazer pedido</a>
         </nav>
     </div>
 
@@ -38,35 +39,35 @@
         <h3 class="categoria-title">Chicotes</h3>
         <div class="produtos-grid">
 
-            <article class="produto-card">
+            <article class="produto-card" data-produto-id="001" data-produto-nome="Chicote de pesca 1">
                 <span class="produto-id">ID: 001</span>
                 <img src="assets/produtos/produto-001.png" alt="Chicote de pesca 1">
                 <h3>Chicote de pesca 1</h3>
                 <p>Chicote multi-anzol com miçangas verdes e acabamento em aço.</p>
             </article>
 
-            <article class="produto-card">
+            <article class="produto-card" data-produto-id="002" data-produto-nome="Chicote de pesca 2">
                 <span class="produto-id">ID: 002</span>
                 <img src="assets/produtos/produto-002.png" alt="Chicote de pesca 2">
                 <h3>Chicote de pesca 2</h3>
                 <p>Chicote com anzóis múltiplos, linha transparente e miçangas azuis.</p>
             </article>
 
-            <article class="produto-card">
+            <article class="produto-card" data-produto-id="003" data-produto-nome="Chicote de pesca 3">
                 <span class="produto-id">ID: 003</span>
                 <img src="assets/produtos/produto-003.png" alt="Chicote de pesca 3">
                 <h3>Chicote de pesca 3</h3>
                 <p>Chicote com anzol reforçado, girador e miçangas coloridas.</p>
             </article>
 
-            <article class="produto-card">
+            <article class="produto-card" data-produto-id="004" data-produto-nome="Chicote de pesca 4">
                 <span class="produto-id">ID: 004</span>
                 <img src="assets/produtos/produto-004.png" alt="Chicote de pesca 4">
                 <h3>Chicote de pesca 4</h3>
                 <p>Chicote de aço com emendas e giradores para montagem rápida.</p>
             </article>
 
-            <article class="produto-card">
+            <article class="produto-card" data-produto-id="005" data-produto-nome="Chicote de pesca 5">
                 <span class="produto-id">ID: 005</span>
                 <img src="assets/produtos/produto-005.png" alt="Chicote de pesca 5">
                 <h3>Chicote de pesca 5</h3>
@@ -89,6 +90,35 @@
             <p class="categoria-vazia">Em breve, novos produtos nesta categoria.</p>
         </div>
     </section>
+
+    <section class="pedido-section" id="fazer-pedido">
+        <h3 class="categoria-title">Fazer pedido</h3>
+
+        <form class="pedido-form" id="form-pedido">
+            <div class="pedido-busca">
+                <label for="busca-produto">Buscar produto (ID ou nome)</label>
+                <input type="text" id="busca-produto" placeholder="Ex: 001 ou Chicote..." autocomplete="off">
+                <div class="pedido-resultados" id="resultados-busca"></div>
+            </div>
+
+            <div class="pedido-itens-wrap">
+                <h4>Itens do pedido</h4>
+                <ul class="pedido-itens" id="lista-pedido"></ul>
+                <p class="pedido-vazio" id="pedido-vazio">Nenhum item. Busque e adicione produtos acima.</p>
+            </div>
+
+            <div class="pedido-dados">
+                <label for="pedido-nome">Seu nome</label>
+                <input type="text" id="pedido-nome" placeholder="Nome completo" required>
+                <label for="pedido-telefone">Seu WhatsApp</label>
+                <input type="tel" id="pedido-telefone" placeholder="(00) 00000-0000">
+            </div>
+
+            <button type="button" class="btn-whatsapp" id="btn-enviar-whatsapp">
+                Enviar pedido por WhatsApp
+            </button>
+        </form>
+    </section>
 </main>
 
 <script>
@@ -104,6 +134,113 @@
     }
     setAtivo();
     window.addEventListener('hashchange', setAtivo);
+})();
+
+(function() {
+    var produtos = [];
+    var cards = document.querySelectorAll('.produto-card[data-produto-id]');
+    cards.forEach(function(card) {
+        produtos.push({
+            id: card.getAttribute('data-produto-id'),
+            nome: card.getAttribute('data-produto-nome')
+        });
+    });
+
+    var pedido = [];
+    var inputBusca = document.getElementById('busca-produto');
+    var divResultados = document.getElementById('resultados-busca');
+    var listaPedido = document.getElementById('lista-pedido');
+    var pedidoVazio = document.getElementById('pedido-vazio');
+    var btnWhatsApp = document.getElementById('btn-enviar-whatsapp');
+
+    function filtrarProdutos(texto) {
+        texto = (texto || '').toLowerCase().trim();
+        if (!texto) return produtos.slice(0, 8);
+        return produtos.filter(function(p) {
+            return p.id.indexOf(texto) !== -1 || p.nome.toLowerCase().indexOf(texto) !== -1;
+        }).slice(0, 10);
+    }
+
+    function renderBusca() {
+        var lista = filtrarProdutos(inputBusca.value);
+        if (lista.length === 0) {
+            divResultados.innerHTML = '<p class="busca-nenhum">Nenhum produto encontrado.</p>';
+            divResultados.classList.add('aberto');
+            return;
+        }
+        divResultados.innerHTML = lista.map(function(p) {
+            return '<div class="busca-item" data-id="' + p.id + '" data-nome="' + p.nome.replace(/"/g, '&quot;') + '">' +
+                '<span class="busca-id">ID: ' + p.id + '</span> ' + p.nome +
+                ' <button type="button" class="btn-add">Adicionar</button></div>';
+        }).join('');
+        divResultados.classList.add('aberto');
+    }
+
+    function atualizarListaPedido() {
+        if (pedido.length === 0) {
+            listaPedido.innerHTML = '';
+            pedidoVazio.style.display = 'block';
+            return;
+        }
+        pedidoVazio.style.display = 'none';
+        listaPedido.innerHTML = pedido.map(function(item, i) {
+            return '<li><span>' + item.nome + '</span> <strong>Qtd: ' + item.qtd + '</strong> ' +
+                '<button type="button" class="btn-remove" data-i="' + i + '">Remover</button></li>';
+        }).join('');
+        listaPedido.querySelectorAll('.btn-remove').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var i = parseInt(btn.getAttribute('data-i'), 10);
+                pedido.splice(i, 1);
+                atualizarListaPedido();
+            });
+        });
+    }
+
+    inputBusca.addEventListener('input', renderBusca);
+    inputBusca.addEventListener('focus', renderBusca);
+    inputBusca.addEventListener('blur', function() {
+        setTimeout(function() { divResultados.classList.remove('aberto'); }, 200);
+    });
+
+    divResultados.addEventListener('click', function(e) {
+        var btn = e.target.closest('.btn-add');
+        if (!btn) return;
+        var row = btn.closest('.busca-item');
+        var id = row.getAttribute('data-id');
+        var nome = row.getAttribute('data-nome');
+        var exist = pedido.find(function(x) { return x.id === id; });
+        if (exist) exist.qtd += 1;
+        else pedido.push({ id: id, nome: nome, qtd: 1 });
+        atualizarListaPedido();
+    });
+
+    btnWhatsApp.addEventListener('click', function() {
+        var nome = (document.getElementById('pedido-nome').value || '').trim();
+        var tel = (document.getElementById('pedido-telefone').value || '').trim();
+        if (!nome) {
+            alert('Informe seu nome.');
+            return;
+        }
+        if (pedido.length === 0) {
+            alert('Adicione ao menos um item ao pedido.');
+            return;
+        }
+        var header = document.querySelector('.header');
+        var whatsappNum = (header && header.getAttribute('data-whatsapp')) || '55001999999999';
+        whatsappNum = whatsappNum.replace(/\D/g, '');
+        if (whatsappNum.length < 12) whatsappNum = '55' + whatsappNum;
+        var linhas = ['*Pedido - RL Artigos para Pesca*', '', 'Nome: ' + nome];
+        if (tel) linhas.push('WhatsApp: ' + tel);
+        linhas.push('', '*Itens:*');
+        pedido.forEach(function(item) {
+            linhas.push('- ' + item.nome + ' (ID ' + item.id + ') x ' + item.qtd);
+        });
+        var texto = linhas.join('\n');
+        var url = 'https://wa.me/' + whatsappNum + '?text=' + encodeURIComponent(texto);
+        window.open(url, '_blank');
+    });
+
+    atualizarListaPedido();
 })();
 </script>
 </body>
